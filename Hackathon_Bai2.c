@@ -43,26 +43,37 @@ int main() {
 
     char command[20];
 
-    printf("TEXT EDITOR\n");
+    
 
     while (1) {
+        printf("TEXT EDITOR\n");
+    printf("1. INSERT x: them ky tu x vao cuoi van ban
+");
+    printf("2. UNDO: hoan tac thao tac gan nhat (xaa ky tu cuoi)
+");
+    printf("3. REDO: phuc hoi thao tac vua undo
+");
+    printf("4. HIEN THI: in van ban hien tai");
+    printf("5. THOAT: ket thuc chuong trinh");
         printf("\nNhap lenh: ");
         scanf("%s", command);
 
-        if (strcmp(command, "INSERT") == 0) {
-            char x;
-            scanf(" %c", &x);
-            int len = strlen(text);
-            text[len] = x;
-            text[len+1] = '\0';
+        switch(command) {
+            case 1:
+                char x;
+                scanf(" %c", &x);
+                int len = strlen(text);
+                text[len] = x;
+                text[len+1] = '\0';
 
-            Operation op = {'I', x};
-            push(&undoStack, op);
+                Operation op = {'I', x};
+                push(&undoStack, op);
 
-            redoStack.top = -1;
+                redoStack.top = -1;
 
-        } else if (strcmp(command, "UNDO") == 0) {
-            if (!isEmpty(&undoStack)) {
+                break;
+            case 2:
+                if (!isEmpty(&undoStack)) {
                 Operation lastOp = pop(&undoStack);
                 int len = strlen(text);
                 if (len > 0) {
@@ -73,8 +84,9 @@ int main() {
                 printf("Khong co thao tac đe hoan tac!\n");
             }
 
-        } else if (strcmp(command, "REDO") == 0) {
-            if (!isEmpty(&redoStack)) {
+                break;
+            case 3:
+                if (!isEmpty(&redoStack)) {
                 Operation redoOp = pop(&redoStack);
                 int len = strlen(text);
                 text[len] = redoOp.value;
@@ -83,20 +95,18 @@ int main() {
             } else {
                 printf("Khong co thao tac de phuc hoi!\n");
             }
-
-        } else if (strcmp(command, "HIEN") == 0) {
-            char temp[10];
+                break;
+            case 4:
+                char temp[10];
             scanf("%s", temp);
             printf("Van ban hien tai: %s\n", text);
-
-        } else if (strcmp(command, "THOAT") == 0) {
-            printf("Da thoat chuong trinh.\n");
-            break;
-
-        } else {
-            printf("Lenh khong hop le!\n");
+                break;
+            case 5:
+                 printf("Da thoat chuong trinh.\n");
+                exit(0);
+            default:
+                printf("Lua chon khong hop le\n");
         }
     }
-
     return 0;
 }
